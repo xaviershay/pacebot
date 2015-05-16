@@ -57,9 +57,9 @@ class Pacebot
 
     KmPace = Struct.new(:seconds) do
       def to_s
-        "%s mile = %s km = %s lap" % [
-          Pacebot.format_duration(seconds * MILE_RATIO),
+        "%s km = %s mile = %s lap" % [
           Pacebot.format_duration(seconds),
+          Pacebot.format_duration(seconds * MILE_RATIO),
           Pacebot.format_duration(seconds * LAP_RATIO)
         ]
       end
