@@ -14,8 +14,6 @@ Current:
     pre> Those 4:00 miles were hard!
     pacebot> 4:00 mile = 2:29 km = 60s lap
 
-Aspirational:
-
     pre> I think I ran 3 mi @ 4:20 pace
     pacebot> 3 mi @ 4:20 pace = 13:00
 

@@ -35,4 +35,40 @@ describe 'pace detection' do
     assert_parse "5:00 ks", R::KmPace.new(5 * 60)
     assert_parse "5:00km", R::KmPace.new(5 * 60)
   end
+
+  describe 'miles at pace' do
+    assert_parse "3 mi @ 4:00", R::MilesAtPace.new(3, 4 * 60)
+    assert_parse "3.5 mi @ 4:00", R::MilesAtPace.new(3.5, 4 * 60)
+    assert_parse "3mi @ 4:00", R::MilesAtPace.new(3, 4 * 60)
+    assert_parse "3 miles @ 4:00", R::MilesAtPace.new(3, 4 * 60)
+  end
+
+  describe 'miles in duration' do
+    assert_parse "3 mi in 13:00", R::MilesInDuration.new(3, 13 * 60)
+    assert_parse "3.5 mi in 15:00", R::MilesInDuration.new(3.5, 15 * 60)
+    assert_parse "3mi in 13:00", R::MilesInDuration.new(3, 13 * 60)
+    assert_parse "3 mile in 13:00", R::MilesInDuration.new(3, 13 * 60)
+    assert_parse "3 miles in 13:00", R::MilesInDuration.new(3, 13 * 60)
+    assert_parse "3mi in 13:00", R::MilesInDuration.new(3, 13 * 60)
+  end
+
+  describe 'kays at pace' do
+    assert_parse "3 km @ 4:00", R::KmAtPace.new(3, 4 * 60)
+    assert_parse "3 kms @ 4:00", R::KmAtPace.new(3, 4 * 60)
+    assert_parse "3 kays @ 4:00", R::KmAtPace.new(3, 4 * 60)
+    assert_parse "3.5 km @ 4:00", R::KmAtPace.new(3.5, 4 * 60)
+    assert_parse "3km @ 4:00", R::KmAtPace.new(3, 4 * 60)
+    assert_parse "3k @ 4:00", R::KmAtPace.new(3, 4 * 60)
+  end
+
+  describe 'kays in duration' do
+    assert_parse "3 km in 13:00", R::KmInDuration.new(3, 13 * 60)
+    assert_parse "3k in 13:00", R::KmInDuration.new(3, 13 * 60)
+    assert_parse "3.5 km in 15:00", R::KmInDuration.new(3.5, 15 * 60)
+    assert_parse "3km in 13:00", R::KmInDuration.new(3, 13 * 60)
+    assert_parse "3 km in 13:00", R::KmInDuration.new(3, 13 * 60)
+    assert_parse "3 kays in 13:00", R::KmInDuration.new(3, 13 * 60)
+    assert_parse "3k in 13:00", R::KmInDuration.new(3, 13 * 60)
+  end
+
 end

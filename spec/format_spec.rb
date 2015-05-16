@@ -18,4 +18,52 @@ describe 'formatting responses' do
         "6:50 mile = 4:15 km = 102s lap"
     end
   end
+
+  describe 'miles at pace' do
+    it 'calculates total duration' do
+      assert_format R::MilesAtPace.new(3, 4 * 60 + 20),
+        "3mi @ 4:20 pace = 13:00"
+    end
+
+    it 'calculates total duration for partial miles' do
+      assert_format R::MilesAtPace.new(3.5, 4 * 60 + 20),
+        "3.5mi @ 4:20 pace = 15:10"
+    end
+  end
+
+  describe 'miles in duration' do
+    it 'calculates required pace' do
+      assert_format R::MilesInDuration.new(3, 12 * 60 + 50),
+        "3mi @ 4:17 pace = 12:50"
+    end
+
+    it 'calculates required pace for partial miles' do
+      assert_format R::MilesInDuration.new(1.1, 4 * 60 + 30),
+        "1.1mi @ 4:05 pace = 4:30"
+    end
+  end
+
+  describe 'kays at pace' do
+    it 'calculates total duration' do
+      assert_format R::KmAtPace.new(3, 4 * 60 + 20),
+        "3km @ 4:20 pace = 13:00"
+    end
+
+    it 'calculates total duration for partial miles' do
+      assert_format R::KmAtPace.new(3.5, 4 * 60 + 20),
+        "3.5km @ 4:20 pace = 15:10"
+    end
+  end
+
+  describe 'kays in duration' do
+    it 'calculates required pace' do
+      assert_format R::KmInDuration.new(3, 12 * 60 + 50),
+        "3km @ 4:17 pace = 12:50"
+    end
+
+    it 'calculates required pace for partial kays' do
+      assert_format R::KmInDuration.new(1.1, 4 * 60 + 30),
+        "1.1km @ 4:05 pace = 4:30"
+    end
+  end
 end
