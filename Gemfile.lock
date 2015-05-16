@@ -1,0 +1,10 @@
+GEM
+  remote: https://rubygems.org/
+  specs:
+    xspec (0.2.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  xspec

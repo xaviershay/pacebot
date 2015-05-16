@@ -1,0 +1,18 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift File.expand_path("../../lib", __FILE__)
+
+require 'pacebot'
+
+text = ARGV.join(' ')
+
+bot = Pacebot.new
+
+r = bot.parse(text)
+
+if r
+  puts bot.format(r)
+else
+  $stderr.puts "Didn't match anything"
+  exit 1
+end
