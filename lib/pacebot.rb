@@ -1,7 +1,7 @@
 class Pacebot
   MILE_MATCHER = "mi(?:les?)?"
   KM_MATCHER = "(?:kays|km?s?)"
-  DURATION_MATCHER = "(?<duration>\\d?\\d:\\d{2})"
+  DURATION_MATCHER = "(?<duration>(\\d?:)?\\d?\\d:\\d{2})"
 
   def parse(msg)
     case msg
@@ -17,7 +17,7 @@ class Pacebot
       }
 
       klass = mappings[[$~[:calc], $~[:dist_type][0]]]
-      klass.new(dist, time[0] * 60 + time[1])
+      klass.new(dist, Pacebot.to_seconds(time))
     when /\b#{DURATION_MATCHER}\s?(?<dist_type>#{MILE_MATCHER}|#{KM_MATCHER})/
       time = $~[:duration].split(":").map(&:to_i)
       klass = if $~[:dist_type][0] == "m"
@@ -25,7 +25,7 @@ class Pacebot
       else
         Response::KmPace
       end
-      klass.new(time[0] * 60 + time[1])
+      klass.new(Pacebot.to_seconds(time))
     end
   end
 
@@ -33,9 +33,19 @@ class Pacebot
     response.to_s
   end
 
+  def self.to_seconds(time)
+    if time.size == 2
+      time[0] * 60 + time[1]
+    elsif time.size == 3
+      time[0] * 60 * 60 + time[1] * 60 + time[2]
+    end
+  end
+
   def self.format_duration(seconds)
     if seconds < 120
       "%is" % seconds.round
+    elsif seconds >= 60 * 60
+      "%i:%02i:%02i" % [seconds / 60 / 60, seconds / 60 % 60, seconds % 60]
     else
       "%i:%02i" % [seconds / 60, seconds % 60]
     end

@@ -66,5 +66,13 @@ describe 'formatting responses' do
       assert_format R::KmInDuration.new(1.1, 4 * 60 + 30),
         "1.1km @ 4:05 pace = 4:30"
     end
+
+    it 'formats hours' do
+      assert_format R::KmInDuration.new(10, 60 * 60),
+        "10km @ 6:00 pace = 1:00:00"
+
+      assert_format R::KmInDuration.new(10, 60 * 60 - 1),
+        "10km @ 6:00 pace = 59:59"
+    end
   end
 end

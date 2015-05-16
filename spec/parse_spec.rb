@@ -69,6 +69,7 @@ describe 'pace detection' do
     assert_parse "3 km in 13:00", R::KmInDuration.new(3, 13 * 60)
     assert_parse "3 kays in 13:00", R::KmInDuration.new(3, 13 * 60)
     assert_parse "3k in 13:00", R::KmInDuration.new(3, 13 * 60)
+    assert_parse "21.1k in 2:00:00", R::KmInDuration.new(21.1, 120 * 60)
   end
 
 end
