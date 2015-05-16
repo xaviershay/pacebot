@@ -2,7 +2,7 @@ Pacebot
 =======
 
 A bot to hang out in channels where runners frequent.  Create a new heroku app
-and push this repository to it, then configure a slack "Outgoing WebHooks"
+and push this repository, then configure a slack "Outgoing WebHooks"
 integration to point at it.
 
     pre> Those 4:00 miles were hard!
