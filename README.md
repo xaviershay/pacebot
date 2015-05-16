@@ -17,8 +17,8 @@ integration to point at it.
 Development
 -----------
 
-A CLI is provided for testing parsing and formatting: `pacebot`.
-
-Run the server using `rackup`, and test it with `curl`:
+Run tests with `bin/test`. A CLI is provided for quick ad-hoc testing of
+parsing and formatting: `pacebot`. Run the server using `rackup`, and test it
+with `curl`:
 
      curl -d "text=4:30km" http://localhost:9292
