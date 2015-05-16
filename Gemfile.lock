@@ -1,10 +1,12 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    rack (1.6.0)
     xspec (0.2.0)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
+  rack
   xspec
