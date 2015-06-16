@@ -1,0 +1,3 @@
+#!/bin/bash
+
+exec bundle exec opal -c lib/pacebot.rb > lib/public/pacebot.js

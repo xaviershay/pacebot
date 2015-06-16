@@ -5,6 +5,11 @@ describe 'pace detection' do
     it "parses: #{msg}" do
       bot = Pacebot.new
       assert_equal expected, bot.parse(msg)
+
+      OpalHelper.with_opal do
+        x = OpalHelper.eval("Pacebot.new.parse(#{msg.inspect}) == #{expected.to_ruby}")
+        assert x, "failed"
+      end
     end
   end
 

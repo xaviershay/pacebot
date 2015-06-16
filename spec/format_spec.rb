@@ -1,9 +1,15 @@
+ENV['EXECJS_RUNTIME'] = 'Node'
 require 'spec_helper'
 
 describe 'formatting responses' do
   def assert_format(response, expected)
     bot = Pacebot.new
     assert_equal expected, bot.format(response)
+
+    OpalHelper.with_opal do
+      actual = OpalHelper.eval("Pacebot.new.format(#{response.to_ruby})")
+      assert_equal expected, actual
+    end
   end
 
   describe 'mile pace' do

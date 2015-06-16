@@ -1,13 +1,16 @@
 class Pacebot
   MILE_MATCHER = "mi(?:les?)?"
   KM_MATCHER = "(?:kays|km?s?)"
-  DURATION_MATCHER = "(?<duration>(\\d?:)?\\d?\\d:\\d{2})"
+  DURATION_MATCHER = "((\\d?:)?\\d?\\d:\\d{2})"
 
   def parse(msg)
-    case msg
-    when /(?<distance>\d+(?:\.\d+)?)\s*(?<dist_type>#{MILE_MATCHER}|#{KM_MATCHER})\s+(?<calc>@|in)\s+#{DURATION_MATCHER}/
-      dist = $~[:distance].to_f
-      time = $~[:duration].split(":").map(&:to_i)
+    distance_matcher = /(\d+(?:\.\d+)?)\s*(#{MILE_MATCHER}|#{KM_MATCHER})\s+(@|in)\s+#{DURATION_MATCHER}/
+    pace_matcher = /\b#{DURATION_MATCHER}\s?(#{MILE_MATCHER}|#{KM_MATCHER})/
+
+    if match = distance_matcher.match(msg)
+      duration, dist_type, calc, time = *match.captures
+      dist = duration.to_f
+      time = time.split(":").map(&:to_i)
 
       mappings = {
         ["@", "m"]  => Response::MilesAtPace,
@@ -16,11 +19,12 @@ class Pacebot
         ["in", "k"] => Response::KmInDuration,
       }
 
-      klass = mappings[[$~[:calc], $~[:dist_type][0]]]
+      klass = mappings[[calc, dist_type[0]]]
       klass.new(dist, Pacebot.to_seconds(time))
-    when /\b#{DURATION_MATCHER}\s?(?<dist_type>#{MILE_MATCHER}|#{KM_MATCHER})/
-      time = $~[:duration].split(":").map(&:to_i)
-      klass = if $~[:dist_type][0] == "m"
+    elsif match = pace_matcher.match(msg)
+      duration, _, dist_type = *match.captures
+      time = duration.split(":").map(&:to_i)
+      klass = if dist_type[0] == "m"
         Response::MilePace
       else
         Response::KmPace

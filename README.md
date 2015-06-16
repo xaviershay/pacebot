@@ -22,3 +22,10 @@ parsing and formatting: `pacebot`. Run the server using `rackup`, and test it
 with `curl`:
 
      curl -d "text=4:30km" http://localhost:9292
+
+Pacebot also has a web interface that uses [Opal](http://opalrb.org/) to
+cross-compile Ruby to Javascript. By default, tests run against both Ruby and
+Javascript. To disable the latter (for a substantial speed boost), set
+`NO_OPAL=1` in your environment.
+
+Compiled javascript must be checked in. Run `bin/build` to regenerate.
