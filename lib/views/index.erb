@@ -1,0 +1,58 @@
+<html>
+<head>
+  <title>Pacebot</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css" rel="stylesheet">
+  <link rel='icon' type='image/png' href='/running.png'>
+</head>
+<body>
+  <div class='container'>
+    <div class='row'>
+      <div class='col-lg-offset-3 col-lg-5 col-md-offset-3 col-md-6 col-xs-12'>
+        <h1>Pacebot</h1>
+        <form class='form'>
+          <input id='pace-input' placeholder='Type here!' style='font-family: monospace' />
+        </form>
+        <div>
+          <code id='pace-output'>Pacebot does not understand the input :[</code>
+        </div>
+        <h3>Examples <small>Click to try!</small></h3>
+        <pre class='examples'><code><a href='#'>4:00 miles</a>     →  4:00 mile = 2:29 km = 60s lap
+<a href='#'>3:10 kms</a>       →  3:10 km = 5:05 mile = 76s lap
+<a href='#'>3 mi @ 4:20</a>    →  3.0mi @ 4:20 pace = 13:00
+<a href='#'>3 mi in 12:50</a>  →  3.0mi @ 4:17 pace = 12:50</code></pre>
+      </div>
+    </div>
+  </div>
+  <script src='http://code.jquery.com/jquery-2.1.4.min.js'></script>
+  <script>
+    $(function() {
+      var output = function(text) {
+        $('#pace-output').text(text)
+      }
+      var timer = null;
+      // Use a buffer so we don't spam requests while you're still typing.
+      var buffer = ""
+
+      var update = function() {
+        var input = $(this).val()
+        buffer = input;
+        clearTimeout(timer)
+        output("Waiting for more input...")
+        timer = setTimeout(function() {
+          output("Converting...")
+          $.post('/', {'text': buffer}, function(data) {
+            if (data['text']) {
+              output(data['text'])
+            } else {
+              output('Pacebot does not understand the input :[')
+            }
+          }, 'json')
+        }, 300)
+      }
+      $("#pace-input").keyup(update).change(update)
+      $('.examples a').click(function() {
+        $('#pace-input').val($(this).text()).trigger('change')
+      })
+    })
+  </script>
+</body>
