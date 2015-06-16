@@ -91,6 +91,8 @@
       $('.examples a').click(function(e) {
         e.preventDefault()
         $('#pace-input').val($(this).text()).trigger('change')
+      }).each(function() {
+        $(this).attr('href', "/?" + $.param({q: $(this).text()}))
       })
       var initial = getParameterByName("q")
       if (initial) {
