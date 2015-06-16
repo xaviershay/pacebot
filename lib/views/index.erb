@@ -25,33 +25,87 @@
   </div>
   <script src='http://code.jquery.com/jquery-2.1.4.min.js'></script>
   <script>
+    // http://stackoverflow.com/questions/901115/how-can-i-get-query-string-values-in-javascript
+    function getParameterByName(name) {
+      name = name.replace(/[\[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+          results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
+    }
+
     $(function() {
       var output = function(text) {
         $('#pace-output').text(text)
       }
       var timer = null;
+      // To prevent redundant pushState on page load
+      var loaded = false;
       // Use a buffer so we don't spam requests while you're still typing.
       var buffer = ""
 
-      var update = function() {
+      var update = function(e) {
         var input = $(this).val()
         buffer = input;
         clearTimeout(timer)
         output("Waiting for more input...")
         timer = setTimeout(function() {
+          var currentTimer = timer
           output("Converting...")
           $.post('/', {'text': buffer}, function(data) {
-            if (data['text']) {
-              output(data['text'])
-            } else {
-              output('Pacebot does not understand the input :[')
+            if (timer == currentTimer) {
+              if (data['text']) {
+                output(data['text'])
+                title = data['input'] + ' - Pacebot'
+
+                if (loaded) {
+                  window.history.pushState(
+                    {
+                      title: title,
+                      input: data['input'],
+                      output: data['text']
+                    },
+                    null,
+                    "/?" + $.param({q: data['input']})
+                  )
+                } else {
+                  window.history.replaceState(
+                    {
+                      title: title,
+                      input: data['input'],
+                      output: data['text']
+                    },
+                    null,
+                    "/?" + $.param({q: data['input']})
+                  )
+                }
+                loaded = true
+                $(document).prop('title', title)
+              } else {
+                output('Pacebot does not understand the input :[')
+              }
             }
           }, 'json')
         }, 300)
       }
       $("#pace-input").keyup(update).change(update)
-      $('.examples a').click(function() {
+      $('.examples a').click(function(e) {
+        e.preventDefault()
         $('#pace-input').val($(this).text()).trigger('change')
+      })
+      var initial = getParameterByName("q")
+      if (initial) {
+        $('#pace-input').val(initial).trigger('change')
+      }
+      window.addEventListener("popstate", function(e) {
+        clearTimeout(timer)
+        if (e.state) {
+          e = e.state
+          $(document).prop('title', e.title)
+          $('#pace-input').val(e.input)
+          output(e.output)
+        } else {
+          window.location = window.location
+        }
       })
     })
   </script>
