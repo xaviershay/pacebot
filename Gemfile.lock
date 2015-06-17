@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    execjs (2.3.0)
     hike (1.2.3)
     multi_json (1.11.1)
     opal (0.7.2)
@@ -30,6 +31,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  execjs
   opal
   rack
   shotgun
