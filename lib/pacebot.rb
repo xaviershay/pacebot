@@ -30,6 +30,18 @@ class Pacebot
         Response::KmPace
       end
       klass.new(Pacebot.to_seconds(time))
+    elsif match = /[^:]\b(\d+(?:\.\d+)?)\s*(#{MILE_MATCHER}|#{KM_MATCHER})/.match(" " + msg)
+      # Can't use look-behind match because of javascript compat, hence the
+      # space prepend hack.
+      distance, dist_type = *match.captures
+
+      klass = if dist_type[0] == "m"
+        Response::MileDistance
+      else
+        Response::KmDistance
+      end
+
+      klass.new(distance.to_f)
     end
   end
 
@@ -55,9 +67,31 @@ class Pacebot
     end
   end
 
+  def self.format_distance(distance)
+    ("%.1f" % distance).gsub(/\.0$/, '')
+  end
+
   module Response
     MILE_RATIO = 1.609
     LAP_RATIO = 0.4
+
+    MileDistance = Struct.new(:distance) do
+      def to_s
+        "%s mi = %s km" % [
+          Pacebot.format_distance(distance),
+          Pacebot.format_distance(distance * MILE_RATIO)
+        ]
+      end
+    end
+
+    KmDistance = Struct.new(:distance) do
+      def to_s
+        "%s km = %s mi" % [
+          Pacebot.format_distance(distance),
+          Pacebot.format_distance(distance / MILE_RATIO)
+        ]
+      end
+    end
 
     MilePace = Struct.new(:seconds) do
       def to_s

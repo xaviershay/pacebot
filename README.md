@@ -5,6 +5,9 @@ A bot to hang out in channels where runners frequent.  Create a new heroku app
 and push this repository, then configure a slack "Outgoing WebHooks"
 integration to point at it.
 
+    pre> Time for an easy 10 mile!
+    pacebot> 10 mi = 16.1 km
+
     pre> Those 4:00 miles were hard!
     pacebot> 4:00 mile = 2:29 km = 60s lap
 

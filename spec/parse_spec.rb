@@ -22,9 +22,20 @@ describe 'pace detection' do
 
   describe 'readme examples' do
     assert_parse "Those 4:00 miles were hard!", R::MilePace.new(4 * 60)
+    assert_parse "Time for an easy 10 mile!", R::MileDistance.new(10)
   end
 
-  describe 'miles' do
+  describe 'mile distances' do
+    assert_parse "10 miles", R::MileDistance.new(10)
+    assert_parse "10.5mi", R::MileDistance.new(10.5)
+  end
+
+  describe 'km distances' do
+    assert_parse "10k", R::KmDistance.new(10)
+    assert_parse "10.5 km", R::KmDistance.new(10.5)
+  end
+
+  describe 'mile paces' do
     assert_parse "4:04 miles", R::MilePace.new(4 * 61)
     assert_parse "4:04 mile", R::MilePace.new(4 * 61)
     assert_parse "4:04 mi", R::MilePace.new(4 * 61)
@@ -33,7 +44,7 @@ describe 'pace detection' do
     assert_no_parse "100:00mi"
   end
 
-  describe 'kms' do
+  describe 'km paces' do
     assert_parse "5:00 kays", R::KmPace.new(5 * 60)
     assert_parse "5:00 km", R::KmPace.new(5 * 60)
     assert_parse "5:00 kms", R::KmPace.new(5 * 60)

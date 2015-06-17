@@ -12,6 +12,20 @@ describe 'formatting responses' do
     end
   end
 
+  describe 'mile distance' do
+    it 'formats with km equivalent' do
+      assert_format R::MileDistance.new(10),
+        "10 mi = 16.1 km"
+    end
+  end
+
+  describe 'km distance' do
+    it 'formats with mile equivalent' do
+      assert_format R::KmDistance.new(8),
+        "8 km = 5 mi"
+    end
+  end
+
   describe 'mile pace' do
     it 'formats with kay and lap equivalents' do
       assert_format R::MilePace.new(4 * 60),
