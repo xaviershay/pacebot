@@ -10,4 +10,5 @@ gem 'sinatra'
 group :development do
   gem 'shotgun'
   gem 'opal'
+  gem 'execjs'
 end
