@@ -25,7 +25,7 @@
           <input id='pace-input' placeholder='Type here!' style='font-family: monospace' />
         </form>
         <div>
-          <code id='pace-output'>Pacebot does not understand the input :[</code>
+          <code id='pace-output' style='display: none;'>Pacebot does not understand the input :[</code>
         </div>
         <h3>Examples <small>Click to try!</small></h3>
         <pre class='examples'><code><a href='#'>5 mi</a> → 5 mi = 8 km
@@ -52,7 +52,12 @@
 
     $(function() {
       var output = function(text) {
-        $('#pace-output').text(text)
+        if (text.length > 0) {
+          $('#pace-output').text(text)
+          $('#pace-output').show()
+        } else {
+          $('#pace-output').hide()
+        }
       }
 
       var currentInput = getParameterByName("q")
@@ -89,7 +94,11 @@
           currentInput = input
           $(document).prop('title', title)
         } else {
-          output('Pacebot does not understand the input :[')
+          if (input.length > 0) {
+            output('Pacebot does not understand the input :[')
+          } else {
+            output('')
+          }
         }
       }
       $("#pace-input").keyup(update).change(update)
