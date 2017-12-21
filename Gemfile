@@ -6,6 +6,7 @@ ruby '2.3.1'
 gem 'xspec'
 gem 'rack'
 gem 'sinatra'
+gem 'puma'
 
 group :development do
   gem 'shotgun'

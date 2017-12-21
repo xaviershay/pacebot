@@ -12,6 +12,7 @@ GEM
       sourcemap (~> 0.1.0)
     parser (2.3.3.1)
       ast (~> 2.2)
+    puma (3.9.1)
     rack (2.0.3)
     rack-protection (2.0.0)
       rack
@@ -32,6 +33,7 @@ PLATFORMS
 DEPENDENCIES
   execjs
   opal
+  puma
   rack
   shotgun
   sinatra
