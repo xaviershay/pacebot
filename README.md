@@ -32,3 +32,8 @@ Javascript. To disable the latter (for a substantial speed boost), set
 `NO_OPAL=1` in your environment.
 
 Compiled javascript must be checked in. Run `bin/build` to regenerate.
+
+A CLI is also provided for testing:
+
+    > bin/pacebot "5 mi"
+    5 mi = 8 km
