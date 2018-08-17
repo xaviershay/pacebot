@@ -2,6 +2,7 @@ Pacebot
 =======
 
 [![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy)
+[![Build Status](https://travis-ci.org/xaviershay/pacebot.svg?branch=master)](https://travis-ci.org/xaviershay/pacebot)
 
 A bot to hang out in channels where runners frequent. Create a new heroku app
 and push this repository, then configure a slack "Outgoing WebHooks"
