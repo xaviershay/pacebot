@@ -1,4 +1,4 @@
 language: ruby
 script: bundle exec xspec
 rvm:
-  - 2.3.1 # Keep this in sync with Gemfile
+  - 2.5.1 # Keep this in sync with Gemfile
