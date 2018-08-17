@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 
 # Keep this in sync with .travis.yml
-ruby '2.3.1'
+ruby '2.5.1'
 
 gem 'xspec'
 gem 'rack'
