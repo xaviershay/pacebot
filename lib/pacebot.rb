@@ -4,8 +4,8 @@ class Pacebot
   DURATION_MATCHER = "((\\d?:)?\\d?\\d:\\d{2})"
 
   def parse(msg)
-    distance_matcher = /(\d+(?:\.\d+)?)\s*(#{MILE_MATCHER}|#{KM_MATCHER})\s+(@|in)\s+#{DURATION_MATCHER}/
-    pace_matcher = /\b#{DURATION_MATCHER}\s?(#{MILE_MATCHER}|#{KM_MATCHER})/
+    distance_matcher = /(\d+(?:\.\d+)?)\s*(#{MILE_MATCHER}|#{KM_MATCHER})\s+(@|in)\s+#{DURATION_MATCHER}/i
+    pace_matcher = /\b#{DURATION_MATCHER}\s?(#{MILE_MATCHER}|#{KM_MATCHER})/i
 
     if match = distance_matcher.match(msg)
       duration, dist_type, calc, time = *match.captures
@@ -19,23 +19,23 @@ class Pacebot
         ["in", "k"] => Response::KmInDuration,
       }
 
-      klass = mappings[[calc, dist_type[0]]]
+      klass = mappings[[calc.downcase, dist_type[0].downcase]]
       klass.new(dist, Pacebot.to_seconds(time))
     elsif match = pace_matcher.match(msg)
       duration, _, dist_type = *match.captures
       time = duration.split(":").map(&:to_i)
-      klass = if dist_type[0] == "m"
+      klass = if dist_type[0].downcase == "m"
         Response::MilePace
       else
         Response::KmPace
       end
       klass.new(Pacebot.to_seconds(time))
-    elsif match = /[^:]\b(\d+(?:\.\d+)?)\s*(#{MILE_MATCHER}|#{KM_MATCHER})/.match(" " + msg)
+    elsif match = /[^:]\b(\d+(?:\.\d+)?)\s*(#{MILE_MATCHER}|#{KM_MATCHER})/i.match(" " + msg)
       # Can't use look-behind match because of javascript compat, hence the
       # space prepend hack.
       distance, dist_type = *match.captures
 
-      klass = if dist_type[0] == "m"
+      klass = if dist_type[0].downcase == "m"
         Response::MileDistance
       else
         Response::KmDistance

@@ -26,11 +26,13 @@ describe 'pace detection' do
   end
 
   describe 'mile distances' do
+    assert_parse "10MI", R::MileDistance.new(10)
     assert_parse "10 miles", R::MileDistance.new(10)
     assert_parse "10.5mi", R::MileDistance.new(10.5)
   end
 
   describe 'km distances' do
+    assert_parse "10K", R::KmDistance.new(10)
     assert_parse "10k", R::KmDistance.new(10)
     assert_parse "10.5 km", R::KmDistance.new(10.5)
   end
